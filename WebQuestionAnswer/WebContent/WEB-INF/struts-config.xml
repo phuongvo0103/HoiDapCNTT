@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts 
+Configuration 1.3//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+<struts-config>
+	<form-beans>
+	<form-bean name="nguoiDungForm" type="form.NguoiDungForm" />
+	<form-bean name="accountForm" type="form.AccountForm" />
+		<form-bean name="quanLyBaiVietForm" type="form.QuanLyBaiVietForm" />
+		<form-bean name="tagForm" type="form.TagForm" />
+		<form-bean name="thongTinCaNhanForm" type="form.ThongTinCaNhanForm" />
+		<form-bean name="serviceForm" type="form.ServiceForm"></form-bean>
+		<form-bean name="visitorForm" type="form.VisitorForm"></form-bean>
+		<form-bean name="accountDetailsForm" type="form.AccountDetailsForm"></form-bean>
+		<form-bean name="displayQuestionsForm" type="form.DisplayQuestionsForm" />
+		<form-bean name="tagDetailsForm" type="form.TagDetailsForm" />
+		<form-bean name="postQuestionForm" type="form.PostQuestionForm" />
+		<form-bean name="displayQuestionDetailsForm" type="form.DisplayQuestionDetailsForm" />
+	</form-beans>
+	<action-mappings>
+		
+		<action name="serviceForm" path="/service" scope="request" type="action.ServiceAction"></action>
+		
+		<action path="/tagdetails" name="tagDetailsForm" scope="request" type="action.TagDetailsAction">
+			<forward name="success" path="/tagdetails.jsp"></forward>
+		</action>
+		
+		<action input="/ask-question.jsp"
+			path="/question-details" name="displayQuestionDetailsForm" scope="request" type="action.DisplayQuestionDetailsAction">
+			<forward name="success" path="/question-details.jsp"></forward>
+		</action>
+		
+		<action name="postQuestionForm" path="/ask-question" scope="request" type="action.PostQuestionAction" >
+			<forward name="success" path="/visitor.do" /> 
+			<forward name="postQuestionError" path="/ask-question.jsp" />
+			<forward name="error" path="/ask-question.jsp" />
+			<forward name="failed" path="/ask-question.jsp" />
+			<forward name="login" path="/dangNhap.jsp" />
+		</action>
+		
+		<action input="/visitor.jsp"
+				name="accountDetailsForm" 
+				path="/user" 
+				scope="request" 
+				type="action.DisplayUserDetailsAction">
+			<forward name="accountInfo" path="/thongTinUser.jsp" />
+		</action>
+			<!--Visitor Management diep modify-->
+		<action input="/visitor.jsp"
+				name="visitorForm"
+				path="/visitor" 
+				scope="request" 
+				type="action.VisitorAction">
+				<forward name="toVisitor" path="/visitor.jsp" />
+		</action>
+		<!-- Dang nhap -->
+	<!-- Trang đăng nhập phải truyền qua danhsachTTCN.do -->
+		<action input="/dangNhap.jsp" name="nguoiDungForm"
+			path="/dangnhap" scope="request" type="action.NguoiDungAction">
+			<forward name="thanhCong" path="/visitor.do" />
+			<forward name="thatBai" path="/dangNhap.jsp" />
+		</action>
+		<!-- hien thi danh sach thong tin ca nhan -->
+		<action input="/dangNhap.jsp" name="thongTinCaNhanForm" 
+			path="/danhsachTTCN" scope="request" type="action.ThongTinCaNhanAction">
+			<forward name="thongTinCaNhan" path="/thongTinCaNhan.jsp" />
+			<forward name="thatBai" path="/dangNhap.jsp" redirect="true"/>
+		</action>
+		<!-- sửa thông tin cá nhân -->
+		
+		<action input="/suaThongTinCaNhan.jsp" name="thongTinCaNhanForm"
+			path="/suaTTCN" scope="request" type="action.SuaThongTinCaNhanAction">
+			<forward name="suaTTCN" path="/suaThongTinCaNhan.jsp" />
+			<forward name="suaTTCNxong" path="/danhsachTTCN.do" redirect="true" />
+			<forward name="thatBai" path="/dangNhap.jsp" />
+		</action>
+		
+			<!-- Them thong tin ca nhan -->
+			<action input="/dangKyAccount.jsp" name="thongTinCaNhanForm"
+			path="/themTTCN" scope="request" type="action.ThemThongTinCaNhanAction" validate="true">
+			<forward name="themTTCN" path="/dangNhap.jsp" />
+			<forward name="themSVerror" path="/themSinhVien.jsp" />
+			<forward name="themTTCNXong" path="/dangNhap.jsp"/>
+		</action>
+		
+		
+		<!-- Hiển thị các tag ở giao diện diep modify  -->
+		<action input="/quanLyTag.jsp" name="tagForm"
+		path="/listtag" scope="request" type="action.QuanLyTagAction">
+		<forward name="dsTag" path="/quanLyTag.jsp" />
+		</action>
+		
+		
+		<!--List Account Management diep modify-->
+		<action input="/quanLyAccount.jsp" 
+				name="accountForm"
+				path="/listaccount" 
+				scope="request" 
+				type="action.QuanLyAccountAction">
+				<forward name="dsAccount" path="/quanLyAccount.jsp" />
+		</action>
+		
+		<!--Visitor Management diep modify-->
+		<action input="/visitor.jsp"
+				name="visitorForm"
+				path="/visitor" 
+				scope="request" 
+				type="action.VisitorAction">
+				<forward name="toVisitor" path="/visitor.jsp" />
+		</action>
+		
+		<!-- Dang xuat -->
+		<action name="thongTinCaNhanForm"
+		path="/dangxuat" scope="request" type="action.DangXuatAction">
+		<forward name="dangXuatXong" path="/visitor.do" />
+		</action>
+		
+		<!-- Dang ky account -->
+		<action input="/dangKyAccount.jsp" name="nguoiDungForm"
+		path="/dangKy" scope="request" type="action.DangKyAction">
+		<forward name="dangKyXong" path="/dangKyAccount.jsp" />
+		</action>
+		<!-- List Post diep modify-->
+		<action input="/quanLyBaiViet.jsp" name="quanLyBaiVietForm"
+			path="/listpost" scope="request" type="action.QuanLyBaiVietAction">
+			<forward name="dsPost" path="/quanLyBaiViet.jsp" />
+		</action>
+	</action-mappings>
+	<message-resources parameter="action.ApplicationResources" />
+	
+</struts-config>
